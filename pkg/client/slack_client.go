@@ -16,12 +16,14 @@ import (
 
 var defaultTemplate = `Dotscience project '{{.Project }}' task has completed.`
 
+// SlackClient - sends notifications to slack chan
 type SlackClient struct {
 	cfg config.Config
 
 	logger *zap.Logger
 }
 
+// New returns new SlackClient notification plugin
 func New(logger *zap.Logger, cfg config.Config) *SlackClient {
 
 	return &SlackClient{
@@ -56,6 +58,7 @@ func title(status string) string {
 	}
 }
 
+// Exec - runs the plugin triggering notification
 func (c *SlackClient) Exec() error {
 
 	var text string
@@ -93,13 +96,10 @@ func (c *SlackClient) Exec() error {
 		},
 	}
 
-	// actions :=
-
 	msg := &slack.WebhookMessage{
 		IconURL:     c.cfg.IconURL,
 		Channel:     c.cfg.Channel,
 		Attachments: attachements,
-		// AttachmentAction: actions,
 	}
 
 	return slack.PostWebhook(c.cfg.SlackURL, msg)
