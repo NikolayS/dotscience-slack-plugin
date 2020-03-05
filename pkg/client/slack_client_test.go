@@ -1,0 +1,45 @@
+package client
+
+import (
+	"testing"
+
+	"github.com/dotmesh-io/dotscience-slack-plugin/pkg/config"
+)
+
+func Test_templateMessage(t *testing.T) {
+	type args struct {
+		cfg         *config.Config
+		templateStr string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    string
+		wantErr bool
+	}{
+		{
+			name: "default",
+			args: args{
+				cfg: &config.Config{
+					Project: "foo",
+					TaskID:  "101",
+				},
+				templateStr: defaultTemplate,
+			},
+			want:    "Dotscience project foo task 101 has completed.",
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := templateMessage(tt.args.cfg, tt.args.templateStr)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("templateMessage() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("templateMessage() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
