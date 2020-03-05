@@ -21,19 +21,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	slackClient := client.New(log, conf)
+	plugin := client.New(log, conf)
 
 	log.With(
-		zap.String("host", conf.SlackURL),
-		zap.String("username", conf.Project),
+		zap.String("slack_url", conf.SlackURL),
+		zap.String("project", conf.Project),
 		zap.String("project", conf.ProjectID),
-		zap.String("vcs_type", conf.TaskID),
-		zap.String("revision", conf.RunnerID),
-		zap.String("tag", conf.Status),
-		zap.String("branch", conf.DotscienceHost),
+		zap.String("task_id", conf.TaskID),
+		zap.String("runner_id", conf.RunnerID),
+		zap.String("status", conf.Status),
+		zap.String("dotscience_host", conf.DotscienceHost),
 	).Info("client initialized, sending Slack notification")
 
-	err := slackClient.Notify()
+	err := plugin.Exec()
 	if err != nil {
 		log.With(zap.Error(err)).Fatal("failed to send Slack notification")
 		os.Exit(1)
