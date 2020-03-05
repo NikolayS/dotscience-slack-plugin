@@ -11,6 +11,7 @@ func Test_templateMessage(t *testing.T) {
 		cfg         *config.Config
 		templateStr string
 	}
+
 	tests := []struct {
 		name    string
 		args    args
@@ -23,16 +24,17 @@ func Test_templateMessage(t *testing.T) {
 				cfg: &config.Config{
 					Project: "foo",
 					TaskID:  "101",
+					Status:  "OK",
 				},
 				templateStr: defaultTemplate,
 			},
-			want:    "Dotscience project foo task 101 has completed.",
+			want:    "Dotscience project 'foo' task has completed.",
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := templateMessage(tt.args.cfg, tt.args.templateStr)
+			got, err := templateMessage(toTemplatePayload(*tt.args.cfg), tt.args.templateStr)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("templateMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return

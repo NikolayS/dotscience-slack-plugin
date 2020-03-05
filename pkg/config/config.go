@@ -1,5 +1,9 @@
 package config
 
+import (
+	"strings"
+)
+
 type (
 	// Config stores the configuration settings.
 	Config struct {
@@ -9,7 +13,7 @@ type (
 		// Optional link to the runner ID
 		RunnerID string `envconfig:"PLUGIN_RUNNER_ID"`
 		// Workload/pipeline status: [ok, error, terminated]
-		Status string `envconfig:"PLUGIN_STATUS"`
+		Status Status `envconfig:"PLUGIN_STATUS"`
 		// Used by the plugin to produce a clickable link
 		// back to the project and task
 		DotscienceHost string `envconfig:"PLUGIN_DOTSCIENCE_HOST"`
@@ -23,3 +27,21 @@ type (
 		Template string `envconfig:"PLUGIN_TEMPLATE"`
 	}
 )
+
+type Status string
+
+func (s Status) String() string {
+	return string(s)
+}
+
+func (s Status) OK() bool {
+	return strings.ToLower(string(s)) == "ok"
+}
+
+func (s Status) Error() bool {
+	return strings.ToLower(string(s)) == "error"
+}
+
+func (s Status) Terminated() bool {
+	return strings.ToLower(string(s)) == "terminated"
+}

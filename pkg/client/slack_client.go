@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 	"text/template"
 	"time"
 
@@ -14,7 +15,19 @@ import (
 	"github.com/dotmesh-io/dotscience-slack-plugin/pkg/config"
 )
 
-var defaultTemplate = `Dotscience project '{{.Project }}' task has completed.`
+var defaultTemplate = `{{if .OK }}Dotscience project '{{.Project }}' task has completed.{{else}}
+{{if .Error }}Dotscience project '{{.Project }}' task has encountered an error.{{else}}{{end}}
+{{if .Terminated }}Dotscience project '{{.Project }}' task terminated.{{else}}{{end}}
+{{end}}`
+
+// TemplatePayload - passed into the template gen
+type TemplatePayload struct {
+	config.Config
+	// Populated on load, used by the template
+	OK         bool
+	Terminated bool
+	Error      bool
+}
 
 // SlackClient - sends notifications to slack chan
 type SlackClient struct {
@@ -58,16 +71,27 @@ func title(status string) string {
 	}
 }
 
+func toTemplatePayload(cfg config.Config) *TemplatePayload {
+	return &TemplatePayload{
+		Config:     cfg,
+		OK:         cfg.Status.OK(),
+		Terminated: cfg.Status.Terminated(),
+		Error:      cfg.Status.Error(),
+	}
+}
+
 // Exec - runs the plugin triggering notification
 func (c *SlackClient) Exec() error {
 
 	var text string
 	var err error
 
+	templatePayload := toTemplatePayload(c.cfg)
+
 	if c.cfg.Template != "" {
-		text, err = templateMessage(&c.cfg, c.cfg.Template)
+		text, err = templateMessage(templatePayload, c.cfg.Template)
 	} else if c.cfg.Template == "" || err != nil {
-		text, err = templateMessage(&c.cfg, defaultTemplate)
+		text, err = templateMessage(templatePayload, defaultTemplate)
 		if err != nil {
 			return err
 		}
@@ -76,8 +100,8 @@ func (c *SlackClient) Exec() error {
 	attachements := []slack.Attachment{
 		slack.Attachment{
 			Fallback:  text,
-			Color:     color(c.cfg.Status),
-			Title:     title(c.cfg.Status),
+			Color:     color(c.cfg.Status.String()),
+			Title:     title(c.cfg.Status.String()),
 			TitleLink: fmt.Sprintf("%s/runner/%s/tasks", c.cfg.DotscienceHost, c.cfg.RunnerID),
 			Fields: []slack.AttachmentField{
 				slack.AttachmentField{
@@ -105,7 +129,7 @@ func (c *SlackClient) Exec() error {
 	return slack.PostWebhook(c.cfg.SlackURL, msg)
 }
 
-func templateMessage(cfg *config.Config, templateStr string) (string, error) {
+func templateMessage(cfg *TemplatePayload, templateStr string) (string, error) {
 	t, err := template.New("notification").Parse(templateStr)
 	if err != nil {
 		return "", err
@@ -117,5 +141,5 @@ func templateMessage(cfg *config.Config, templateStr string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return buf.String(), nil
+	return strings.TrimSpace(buf.String()), nil
 }
