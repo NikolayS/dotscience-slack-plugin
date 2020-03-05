@@ -17,7 +17,7 @@ import (
 
 var defaultTemplate = `{{if .OK }}Dotscience project '{{.Project }}' task has completed.{{else}}
 {{if .Error }}Dotscience project '{{.Project }}' task has encountered an error.{{else}}{{end}}
-{{if .Terminated }}Dotscience project '{{.Project }}' task terminated.{{else}}{{end}}
+{{if .Terminated }}Dotscience project '{{.Project }}' task has been terminated.{{else}}{{end}}
 {{end}}`
 
 // TemplatePayload - passed into the template gen

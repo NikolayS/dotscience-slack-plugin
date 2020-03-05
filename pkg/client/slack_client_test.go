@@ -31,6 +31,32 @@ func Test_templateMessage(t *testing.T) {
 			want:    "Dotscience project 'foo' task has completed.",
 			wantErr: false,
 		},
+		{
+			name: "error",
+			args: args{
+				cfg: &config.Config{
+					Project: "foo",
+					TaskID:  "101",
+					Status:  "error",
+				},
+				templateStr: defaultTemplate,
+			},
+			want:    "Dotscience project 'foo' task has encountered an error.",
+			wantErr: false,
+		},
+		{
+			name: "terminated",
+			args: args{
+				cfg: &config.Config{
+					Project: "foo",
+					TaskID:  "101",
+					Status:  "terminated",
+				},
+				templateStr: defaultTemplate,
+			},
+			want:    "Dotscience project 'foo' task has been terminated.",
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
