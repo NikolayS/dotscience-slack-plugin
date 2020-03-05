@@ -29,7 +29,7 @@ func main() {
 		zap.String("project", conf.ProjectID),
 		zap.String("task_id", conf.TaskID),
 		zap.String("runner_id", conf.RunnerID),
-		zap.String("status", conf.Status),
+		zap.String("status", conf.Status.String()),
 		zap.String("dotscience_host", conf.DotscienceHost),
 	).Info("client initialized, sending Slack notification")
 
