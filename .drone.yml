@@ -11,13 +11,14 @@ workspace:
   path: src/github.com/dotmesh-io/dotscience-slack-plugin
 
 steps:
-- name: build
+- name: build and test
   pull: default
   image: golang
   environment:
     GO111MODULE: off
   commands:
   - make install
+  - make test
 
 - name: publish-dockerhub
   pull: default
