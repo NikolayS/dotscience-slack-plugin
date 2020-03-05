@@ -4,6 +4,7 @@ WORKDIR /usr/local/go/src/github.com/dotmesh-io/dotscience-slack-plugin
 COPY . /usr/local/go/src/github.com/dotmesh-io/dotscience-slack-plugin
 
 RUN apk update && apk upgrade
+ENV GO111MODULE=off
 RUN cd cmd/ds-slack-plugin && go install
 
 FROM alpine:latest

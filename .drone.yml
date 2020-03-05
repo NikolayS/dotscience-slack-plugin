@@ -14,8 +14,8 @@ steps:
 - name: build
   pull: default
   image: golang
-  # environment:
-  #   GO111MODULE: off
+  environment:
+    GO111MODULE: off
   commands:
   - make install
 
