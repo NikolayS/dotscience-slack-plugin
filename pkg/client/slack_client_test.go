@@ -32,12 +32,12 @@ func Test_templateMessage(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "error",
+			name: "failure",
 			args: args{
 				cfg: &config.Config{
 					Project: "foo",
 					TaskID:  "101",
-					Status:  "error",
+					Status:  "failure",
 				},
 				templateStr: defaultTemplate,
 			},
