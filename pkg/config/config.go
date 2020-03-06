@@ -34,8 +34,8 @@ func (s Status) String() string {
 	return string(s)
 }
 
-func (s Status) OK() bool {
-	return strings.ToLower(string(s)) == "ok"
+func (s Status) Success() bool {
+	return strings.ToLower(string(s)) == "success"
 }
 
 func (s Status) Error() bool {

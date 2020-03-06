@@ -24,7 +24,7 @@ func Test_templateMessage(t *testing.T) {
 				cfg: &config.Config{
 					Project: "foo",
 					TaskID:  "101",
-					Status:  "OK",
+					Status:  "success",
 				},
 				templateStr: defaultTemplate,
 			},
@@ -70,4 +70,5 @@ func Test_templateMessage(t *testing.T) {
 			}
 		})
 	}
+
 }

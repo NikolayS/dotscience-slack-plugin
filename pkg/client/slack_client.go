@@ -15,7 +15,7 @@ import (
 	"github.com/dotmesh-io/dotscience-slack-plugin/pkg/config"
 )
 
-var defaultTemplate = `{{if .OK }}Dotscience project '{{.Project }}' task has completed.{{else}}
+var defaultTemplate = `{{if .Success }}Dotscience project '{{.Project }}' task has completed.{{else}}
 {{if .Error }}Dotscience project '{{.Project }}' task has encountered an error.{{else}}{{end}}
 {{if .Terminated }}Dotscience project '{{.Project }}' task has been terminated.{{else}}{{end}}
 {{end}}`
@@ -24,7 +24,7 @@ var defaultTemplate = `{{if .OK }}Dotscience project '{{.Project }}' task has co
 type TemplatePayload struct {
 	config.Config
 	// Populated on load, used by the template
-	OK         bool
+	Success    bool
 	Terminated bool
 	Error      bool
 }
@@ -74,7 +74,7 @@ func title(status string) string {
 func toTemplatePayload(cfg config.Config) *TemplatePayload {
 	return &TemplatePayload{
 		Config:     cfg,
-		OK:         cfg.Status.OK(),
+		Success:    cfg.Status.Success(),
 		Terminated: cfg.Status.Terminated(),
 		Error:      cfg.Status.Error(),
 	}
