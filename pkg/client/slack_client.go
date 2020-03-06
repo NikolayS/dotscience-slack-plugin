@@ -51,7 +51,7 @@ func color(status string) string {
 		return "#F44336"
 	case "terminated":
 		return "#2196F3"
-	case "ok":
+	case "success":
 		return "#00C853"
 	default:
 		return "#9E9E9E"
@@ -64,7 +64,7 @@ func title(status string) string {
 		return "Dotscience pipeline error"
 	case "terminated":
 		return "Dotscience pipeline terminated"
-	case "ok":
+	case "success":
 		return "Dotscience pipeline completed"
 	default:
 		return "#9E9E9E"

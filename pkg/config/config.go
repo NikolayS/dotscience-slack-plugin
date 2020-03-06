@@ -7,19 +7,19 @@ import (
 type (
 	// Config stores the configuration settings.
 	Config struct {
-		Project   string `envconfig:"PLUGIN_PROJECT"`
-		ProjectID string `envconfig:"PLUGIN_PROJECT_ID"`
-		TaskID    string `envconfig:"PLUGIN_TASK_ID"`
+		Project   string `envconfig:"PLUGIN_DOTSCIENCE_PROJECT"`
+		ProjectID string `envconfig:"PLUGIN_DOTSCIENCE_PROJECT_ID"`
+		TaskID    string `envconfig:"PLUGIN_DOTSCIENCE_TASK_ID"`
 		// Optional link to the runner ID
-		RunnerID string `envconfig:"PLUGIN_RUNNER_ID"`
+		RunnerID string `envconfig:"PLUGIN_DOTSCIENCE_RUNNER_ID"`
 		// Workload/pipeline status: [ok, error, terminated]
-		Status Status `envconfig:"PLUGIN_STATUS"`
+		Status Status `envconfig:"PLUGIN_DOTSCIENCE_STATUS"`
 		// Used by the plugin to produce a clickable link
 		// back to the project and task
 		DotscienceHost string `envconfig:"PLUGIN_DOTSCIENCE_HOST"`
 
-		SlackURL string `envconfig:"PLUGIN_SLACK_URL"`
-		IconURL  string `envconfig:"PLUGIN_ICON_URL"`
+		SlackURL string `envconfig:"PLUGIN_SLACKURL"`
+		IconURL  string `envconfig:"PLUGIN_ICONURL"`
 		Channel  string `envconfig:"PLUGIN_CHANNEL"`
 
 		// User supplied template like:

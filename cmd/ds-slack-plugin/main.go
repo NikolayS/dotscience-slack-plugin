@@ -25,8 +25,9 @@ func main() {
 
 	log.With(
 		zap.String("slack_url", conf.SlackURL),
+		zap.String("icon_url", conf.IconURL),
 		zap.String("project", conf.Project),
-		zap.String("project", conf.ProjectID),
+		zap.String("project_id", conf.ProjectID),
 		zap.String("task_id", conf.TaskID),
 		zap.String("runner_id", conf.RunnerID),
 		zap.String("status", conf.Status.String()),
