@@ -39,7 +39,7 @@ func (s Status) Success() bool {
 }
 
 func (s Status) Error() bool {
-	return strings.ToLower(string(s)) == "error"
+	return strings.ToLower(string(s)) == "failure"
 }
 
 func (s Status) Terminated() bool {

@@ -45,9 +45,9 @@ func New(logger *zap.Logger, cfg config.Config) *SlackClient {
 	}
 }
 
-func color(build string) string {
-	switch build {
-	case "error":
+func color(status string) string {
+	switch status {
+	case "failure":
 		return "#F44336"
 	case "terminated":
 		return "#2196F3"
@@ -60,7 +60,7 @@ func color(build string) string {
 
 func title(status string) string {
 	switch status {
-	case "error":
+	case "failure":
 		return "Dotscience pipeline error"
 	case "terminated":
 		return "Dotscience pipeline terminated"
