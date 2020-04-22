@@ -5,7 +5,7 @@
 
 ## Usage
 
-Create a new incoming webhook config via Slack app: https://api.slack.com/messaging/webhooks
+Create a new incoming webhook config via Slack app: https://api.slack.com/messaging/webhooks (or https://slack.com/apps/A0F7XDUAZ-incoming-webhooks which is easier but apparently being deprecated)
 
 Example `.dotscience.yml` configuration:
 
